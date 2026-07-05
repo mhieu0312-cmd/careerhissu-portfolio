@@ -1,0 +1,36 @@
+---
+title: "Tự xây dựng Portfolio & Second Brain từ con số 0"
+date: "2026-07-04"
+summary: "Đập bỏ mọi template ăn sẵn, quyết định tự code hệ thống Portfolio kết hợp Second Brain bằng Next.js 14 App Router."
+tags: ["NextJS", "React", "MDX", "TailwindCSS", "AI-PairProgramming"]
+---
+
+## 🚀 Tại sao t lại tự code?
+Hầu hết các trang portfolio sinh viên hiện nay đều dùng chung vài template Hugo hoặc Gatsby có sẵn trên mạng. Nhìn thì đẹp nhưng t cảm thấy nó không mang lại cá tính và không giúp t nâng cao trình độ viết code. 
+T quyết định tự xây dựng trang web này cùng với **Sil** (AI Pair Programmer) để vừa làm sản phẩm thực tế, vừa học cách vận hành thực tiễn của một dự án Web hiện đại.
+
+## 🛠 Kiến trúc công nghệ
+- **Framework**: [Next.js 14](https://nextjs.org) (App Router) để tận dụng Server Components giúp tải trang cực nhanh và chuẩn SEO.
+- **Styling**: [Tailwind CSS](https://tailwindcss.com) cho phép tùy chỉnh giao diện nhanh, linh hoạt và nhẹ.
+- **Content Engine**: `next-mdx-remote` kết hợp `gray-matter`. Toàn bộ dữ liệu (bài viết, timeline, craft) nằm hoàn toàn trong các file `.mdx` độc lập, tách biệt hoàn toàn khỏi logic giao diện (UI).
+- **Theme**: Chế độ Sáng/Tối (Light/Dark mode) được quản lý đồng bộ qua `next-themes` để tránh lỗi nhấp nháy giao diện khi reload trang (hydration mismatch).
+
+## 🧠 Sơ đồ luồng dữ liệu (Data Flow)
+```
+[Thư mục content/] (File MDX)
+      │
+      ▼ (Đọc qua fs + gray-matter trong src/lib/mdx.ts)
+[Dữ liệu JSON] (Mã hóa Metadata & Content)
+      │
+      ├─────────────────────────┐
+      ▼                         ▼
+[Trang The Brain]       [Trang The Timeline]
+(Tìm kiếm & Lọc động)    (Hiển thị Cột mốc)
+```
+
+## 📈 Những thứ t đã tối ưu hóa
+1. **Thiết kế Glassmorphism**: Sử dụng hiệu ứng mờ nhòe kính cường lực (`backdrop-blur`) giúp giao diện trông cực kỳ cao cấp và hiện đại.
+2. **Hỗ trợ MDX trọn vẹn**: Có thể viết công thức Toán học, chèn block Code có highlight màu sắc rất dễ đọc.
+3. **Tìm kiếm tức thời**: Bộ lọc phía Client tìm kiếm cực nhanh theo tiêu đề, tóm tắt và thẻ tag mà không cần gọi API lên server.
+
+Trang web này sẽ đồng hành cùng t trong suốt chặng đường học tập tiếp theo. Mỗi khi học được gì mới, t chỉ cần tạo một file `.mdx` ném vào thư mục tương ứng!

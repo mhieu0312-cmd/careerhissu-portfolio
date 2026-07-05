@@ -1,0 +1,57 @@
+---
+title: "Ghi nhớ về React Hooks: useState và useEffect"
+date: "2026-07-01"
+summary: "Tóm tắt những hiểu lầm phổ biến khi mới bắt đầu học React Hooks và cách tránh lỗi render vòng lặp vô tận."
+tags: ["React", "Frontend", "JavaScript", "ReactHooks"]
+---
+
+## 1. useState hoạt động không đồng bộ (Asynchronous)
+Lỗi phổ biến nhất của t khi mới bắt đầu dùng React là nghĩ rằng state sẽ thay đổi ngay lập tức sau khi gọi hàm setter.
+
+```javascript
+const [count, setCount] = useState(0);
+
+const handleIncrement = () => {
+  setCount(count + 1);
+  console.log(count); // Kết quả in ra vẫn là 0 chứ không phải 1!
+};
+```
+
+### 💡 Giải pháp:
+Nếu muốn sử dụng giá trị mới ngay lập tức hoặc dựa trên state cũ để tính toán liên tiếp, hãy truyền một callback function vào setter:
+```javascript
+setCount((prevCount) => prevCount + 1);
+```
+
+---
+
+## 2. Dependency Array của useEffect
+`useEffect` là công cụ mạnh mẽ nhưng cực kỳ dễ gây ra lỗi tràn bộ nhớ hoặc lặp vô tận (infinite loops) nếu quản lý dependency không tốt.
+
+### 🔴 Lỗi lặp vô tận phổ biến:
+```javascript
+useEffect(() => {
+  // Thực hiện fetch data hoặc tính toán
+  const data = fetchData();
+  setData(data); // Hàm setData làm component re-render, chạy lại useEffect -> lặp vô hạn!
+}); // Không truyền dependency array!
+```
+
+### 🟢 Cách dùng đúng:
+- **`[]` (Mảng rỗng)**: Chỉ chạy một lần duy nhất khi component được mount (tương tự `componentDidMount`).
+- **`[dependency1, dependency2]`**: Chỉ chạy lại khi một trong các giá trị truyền vào thay đổi.
+
+```javascript
+useEffect(() => {
+  const loadData = async () => {
+    const res = await fetch('/api/user');
+    const json = await res.json();
+    setUserData(json);
+  };
+  loadData();
+}, []); // Chạy duy nhất 1 lần khi load trang
+```
+
+## 📝 Quy tắc vàng (Rules of Hooks)
+1. Chỉ gọi Hooks ở **cấp cao nhất** (không gọi trong vòng lặp `for`, câu lệnh điều kiện `if`, hoặc hàm lồng nhau).
+2. Chỉ gọi Hooks từ **React Function Components** hoặc **Custom Hooks**.

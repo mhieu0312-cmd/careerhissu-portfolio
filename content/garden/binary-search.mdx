@@ -1,0 +1,50 @@
+---
+title: "Thuật toán Tìm kiếm nhị phân (Binary Search) toàn tập"
+date: "2026-06-25"
+summary: "Cách cài đặt thuật toán Tìm kiếm nhị phân chuẩn xác và các lỗi off-by-one thường gặp khi lập trình."
+tags: ["ThuậtToán", "CấuTrúcDữLiệu", "LeetCode", "CPP"]
+---
+
+## 🔍 Ý tưởng cốt lõi
+Tìm kiếm nhị phân là thuật toán tìm kiếm một phần tử trong danh sách **đã được sắp xếp**. Thay vì duyệt qua từng phần tử (O(N)), ta liên tục chia đôi khoảng tìm kiếm, giúp giảm độ phức tạp xuống **O(log N)**.
+
+Mỗi bước so sánh giá trị cần tìm với phần tử ở giữa (mid) của mảng:
+- Nếu bằng nhau, tìm thấy.
+- Nếu nhỏ hơn, thu hẹp khoảng tìm kiếm về nửa bên trái.
+- Nếu lớn hơn, thu hẹp khoảng tìm kiếm về nửa bên phải.
+
+---
+
+## 💻 Cài đặt thuật toán bằng C++
+
+Dưới đây là cách cài đặt dạng lặp (iterative) chuẩn không lo lỗi tràn số:
+
+```cpp
+int binarySearch(const vector<int>& arr, int target) {
+    int left = 0;
+    int right = arr.size() - 1;
+
+    while (left <= right) {
+        // Tránh lỗi tràn số (integer overflow) khi left + right lớn hơn giới hạn của kiểu int
+        int mid = left + (right - left) / 2;
+
+        if (arr[mid] == target) {
+            return mid; // Trả về chỉ số (index)
+        }
+        else if (arr[mid] < target) {
+            left = mid + 1; // Tìm ở nửa bên phải
+        }
+        else {
+            right = mid - 1; // Tìm ở nửa bên trái
+        }
+    }
+    return -1; // Không tìm thấy
+}
+```
+
+---
+
+## ⚠️ Các lỗi "Off-by-one" thường gặp
+1. **Điều kiện dừng**: Viết nhầm `while (left < right)` thay vì `while (left <= right)`. Nếu mảng chỉ có 1 phần tử hoặc phần tử nằm ở biên cuối cùng, bạn sẽ bỏ sót.
+2. **Cập nhật chỉ số mid**: Viết nhầm `left = mid` hoặc `right = mid`. Lỗi này dễ gây ra vòng lặp vô tận (infinite loop) khi mảng còn 2 phần tử. Phải luôn là `mid + 1` và `mid - 1`.
+3. **Tràn số**: Công thức tính `mid = (left + right) / 2` có nguy cơ tràn bộ nhớ số nguyên nếu tổng `left + right` vượt quá `2^31 - 1`. Nên dùng `left + (right - left) / 2`.

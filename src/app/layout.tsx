@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { ThemeProvider } from "../components/ThemeProvider";
+import Header from "../components/Header";
+import Footer from "../components/Footer";
+import ThemeToggle from "../components/ThemeToggle";
 
 export const metadata: Metadata = {
   title: "CareerHissu Portfolio",
@@ -14,12 +17,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className="bg-white text-gray-900 dark:bg-gray-950 dark:text-gray-100 min-h-screen transition-colors duration-300">
+      <body className="bg-white text-gray-900 dark:bg-gray-950 dark:text-gray-100 min-h-screen flex flex-col transition-colors duration-300">
         <ThemeProvider>
+          <Header />
           {/* Layout bọc ngoài cho đẹp */}
-          <div className="max-w-3xl mx-auto px-4 py-8">
+          <main className="flex-1 max-w-3xl w-full mx-auto px-4 py-8">
             {children}
-          </div>
+          </main>
+          <Footer />
+          <ThemeToggle />
         </ThemeProvider>
       </body>
     </html>

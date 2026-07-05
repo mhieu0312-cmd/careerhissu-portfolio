@@ -1,0 +1,33 @@
+---
+title: "Máy tính dòng lệnh (CLI Calculator) viết bằng C++"
+date: "2026-06-20"
+summary: "Sản phẩm thực hành môn Lập trình cơ bản, hỗ trợ các phép tính số học cơ bản và lưu lịch sử tính toán."
+tags: ["CPP", "CLI", "ProjectMônHọc", "LậpTrìnhCơBản"]
+---
+
+## 📌 Tổng quan dự án
+Đây là bài tập lớn cuối kỳ môn **Lập trình cơ bản**. Thay vì chỉ làm một chương trình nhập xuất đơn giản, t đã thiết kế một máy tính mini chạy trên Terminal (dòng lệnh) có hỗ trợ lưu lịch sử và xử lý chuỗi biểu thức phức tạp.
+
+## 🛠 Tính năng chính
+1. **Phép tính cơ bản**: Cộng, trừ, nhân, chia, lấy dư (`%`).
+2. **Hỗ trợ toán tử nâng cao**: Lũy thừa (`^`), tính giai thừa (`!`).
+3. **Phân tích cú pháp biểu thức**: Sử dụng thuật toán ký pháp Ba Lan ngược (Reverse Polish Notation - RPN) để tính toán đúng thứ tự ưu tiên dấu ngoặc tròn `()`.
+4. **Lưu lịch sử**: Ghi đè lịch sử tính toán ra file `history.txt` để người dùng có thể xem lại khi mở chương trình lần sau.
+
+## 💻 Đoạn mã nguồn xử lý thuật toán chính (Trích dẫn)
+Dưới đây là phần code C++ t dùng để xử lý độ ưu tiên của toán tử:
+
+```cpp
+int getPriority(char op) {
+    if (op == '+' || op == '-') return 1;
+    if (op == '*' || op == '/') return 2;
+    if (op == '^') return 3;
+    return 0;
+}
+```
+
+## 💡 Bài học kinh nghiệm xương máu
+- **Quản lý con trỏ và bộ nhớ**: Ban đầu code bị memory leak liên tục do cấp phát động cho cây biểu thức mà quên delete. T đã phải debug mất 2 đêm để sửa triệt để.
+- **Tư duy giải thuật**: Hiểu sâu hơn về cấu trúc dữ liệu **Stack** (Ngăn xếp) thông qua thuật toán Shunting-yard để chuyển đổi trung tố sang hậu tố.
+
+Dự án này tuy nhỏ nhưng đã giúp t đạt điểm A môn Lập trình cơ bản, kéo lại phần nào điểm số học phần Đại số tuyến tính! 😂

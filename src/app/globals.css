@@ -3,7 +3,86 @@
 @tailwind utilities;
 
 @layer base {
-  body {
-    @apply bg-black text-gray-200;
+  html {
+    scroll-behavior: smooth;
   }
+
+  body {
+    @apply transition-colors duration-300 antialiased;
+  }
+
+  /* Tùy chỉnh thanh cuộn siêu mỏng & mượt mà */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-gray-200 dark:bg-gray-800 rounded-full hover:bg-gray-300 dark:hover:bg-gray-700 transition-colors;
+  }
+}
+
+@layer utilities {
+  .text-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500;
+  }
+  
+  .glass-card {
+    @apply bg-white/40 dark:bg-gray-900/40 backdrop-blur-md border border-gray-200/50 dark:border-gray-800/50 shadow-sm hover:shadow-md hover:border-gray-300 dark:hover:border-gray-700 transition-all duration-300;
+  }
+
+  .glow-indicator {
+    @apply shadow-[0_0_15px_rgba(99,102,241,0.5)] dark:shadow-[0_0_15px_rgba(129,140,248,0.6)];
+  }
+}
+
+/* Định dạng các component MDX hiển thị qua tailwind typography (prose) */
+.prose {
+  --tw-prose-body: theme('colors.gray.700');
+  --tw-prose-headings: theme('colors.gray.900');
+  --tw-prose-links: theme('colors.indigo.600');
+  --tw-prose-bold: theme('colors.gray.900');
+  --tw-prose-counters: theme('colors.gray.500');
+  --tw-prose-bullets: theme('colors.gray.300');
+  --tw-prose-hr: theme('colors.gray.200');
+  --tw-prose-quotes: theme('colors.gray.900');
+  --tw-prose-quote-borders: theme('colors.indigo.500');
+  --tw-prose-captions: theme('colors.gray.500');
+  --tw-prose-code: theme('colors.pink.600');
+  --tw-prose-pre-code: theme('colors.gray.200');
+  --tw-prose-pre-bg: theme('colors.gray.900');
+  --tw-prose-th-borders: theme('colors.gray.300');
+  --tw-prose-td-borders: theme('colors.gray.200');
+}
+
+.dark .prose {
+  --tw-prose-body: theme('colors.gray.300');
+  --tw-prose-headings: theme('colors.white');
+  --tw-prose-links: theme('colors.indigo.400');
+  --tw-prose-bold: theme('colors.white');
+  --tw-prose-counters: theme('colors.gray.400');
+  --tw-prose-bullets: theme('colors.gray.600');
+  --tw-prose-hr: theme('colors.gray.800');
+  --tw-prose-quotes: theme('colors.gray.100');
+  --tw-prose-quote-borders: theme('colors.indigo.500');
+  --tw-prose-captions: theme('colors.gray.400');
+  --tw-prose-code: theme('colors.pink.400');
+  --tw-prose-pre-code: theme('colors.gray.100');
+  --tw-prose-pre-bg: theme('colors.gray.900');
+  --tw-prose-th-borders: theme('colors.gray.700');
+  --tw-prose-td-borders: theme('colors.gray.800');
+}
+
+/* Custom styling for inline-code block in prose */
+.prose code::before,
+.prose code::after {
+  content: "" !important;
+}
+
+.prose code {
+  @apply bg-gray-100 dark:bg-gray-900 px-1.5 py-0.5 rounded text-xs font-mono font-medium;
 }
