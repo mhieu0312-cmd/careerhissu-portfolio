@@ -1,61 +1,50 @@
-import fs from 'fs'
-import path from 'path'
-import matter from 'gray-matter'
+import ThemeToggle from "../components/ThemeToggle";
 
-// Phép thuật 1: Hàm đi gom bài viết từ thư mục content/garden
-function getGardenNotes() {
-  const folderPath = path.join(process.cwd(), 'content/garden')
-  const files = fs.readdirSync(folderPath)
-
-  const notes = files.map((fileName) => {
-    const filePath = path.join(folderPath, fileName)
-    const fileContent = fs.readFileSync(filePath, 'utf8')
-    const { data } = matter(fileContent) // Bóc tách Frontmatter bằng gray-matter
-
-    return {
-      slug: fileName.replace('.mdx', ''),
-      title: data.title,
-      date: data.date,
-      summary: data.summary,
-    }
-  })
-
-  return notes
-}
-
-export default function BrainPage() {
-  // Phép thuật 2: Gọi hàm để lấy danh sách bài viết
-  const notes = getGardenNotes()
-
+export default function HomePage() {
   return (
-    <div className="space-y-8">
-      <div>
-        <h1 className="text-2xl font-bold tracking-tight text-white">🧠 THE BRAIN</h1>
-        <p className="text-gray-400 mt-2 text-sm">
-          Khu vườn tri thức công khai và tài liệu chuyên môn của t.
-        </p>
-      </div>
+    <div className="space-y-10">
+      {/* Header */}
+      <header className="flex justify-between items-center py-4 border-b border-gray-200 dark:border-gray-800">
+        <h1 className="text-xl font-semibold text-gray-600 dark:text-gray-400">THE PORTAL</h1>
+        <nav className="space-x-8">
+          <a href="/brain" className="text-sm font-medium text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors">THE BRAIN</a>
+          <a href="/timeline" className="text-sm font-medium text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors">THE TIMELINE</a>
+        </nav>
+      </header>
 
-      <div className="space-y-4">
-        <h2 className="text-lg font-semibold text-white border-b border-gray-800 pb-2">🌱 The Garden (Nhật ký học tập)</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          
-          {/* Phép thuật 3: Vòng lặp in tất cả các bài viết ra màn hình */}
-          {notes.map((note) => (
-            <div key={note.slug} className="p-5 rounded-lg border border-gray-800 bg-gray-950/50 hover:border-gray-700 transition-colors flex flex-col justify-between">
-              <div>
-                <h3 className="font-semibold text-blue-400 mb-1">{note.title}</h3>
-                <p className="text-xs text-gray-500 mb-3">{note.date}</p>
-                <p className="text-sm text-gray-400">{note.summary}</p>
-              </div>
-              <a href={`/brain/${note.slug}`} className="mt-4 text-xs text-blue-400 hover:text-blue-300 font-medium inline-block">
-                  Đọc tiếp →
-              </a>
-            </div>
-          ))}
+      {/* Main Content */}
+      <main className="space-y-12">
+        <section className="space-y-6">
+          <h2 className="text-5xl font-bold tracking-tight text-gray-900 dark:text-white">
+            Hi, t là Chủ tịch.
+          </h2>
+          <p className="max-w-2xl text-lg text-gray-600 dark:text-gray-400 leading-relaxed">
+            T là sinh viên Công nghệ thông tin năm 1. Đây không phải là một CV tĩnh, đây là hệ thống
+            <strong className="text-gray-900 dark:text-white font-semibold"> Second Brain </strong> và
+            <strong className="text-gray-900 dark:text-white font-semibold"> Hành trình 10 năm </strong>
+            ghi lại quá trình tiến hóa tư duy và chuyên môn của t.
+          </p>
+        </section>
 
-        </div>
-      </div>
+        {/* Khối The Now */}
+        <section className="p-6 rounded-2xl border border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-900/50 shadow-inner">
+          <div className="flex items-center gap-3 mb-4">
+            <div className="w-2.5 h-2.5 rounded-full bg-emerald-500 shadow-[0_0_10px_rgba(16,185,129,0.5)]"></div>
+            <h3 className="text-base font-medium text-emerald-600 dark:text-emerald-400">THE NOW (TUẦN NÀY)</h3>
+          </div>
+          <p className="text-base text-gray-700 dark:text-gray-300 leading-relaxed">
+            Đang cùng với con AI tên là Sil học cách kiến trúc web bằng tay, setup bộ khung Next.js + Tailwind CSS.
+          </p>
+        </section>
+      </main>
+
+      {/* Footer */}
+      <footer className="text-center py-6 border-t border-gray-200 dark:border-gray-800 mt-16">
+        <p className="text-sm text-gray-500 dark:text-gray-600">© 2026 - Xây dựng từ vạch xuất phát.</p>
+      </footer>
+
+      {/* Gọi nút Toggle ra */}
+      <ThemeToggle />
     </div>
-  )
+  );
 }
