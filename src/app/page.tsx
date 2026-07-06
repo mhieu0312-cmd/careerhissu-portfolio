@@ -1,125 +1,296 @@
 import Link from 'next/link'
 import { getPostBySlug } from '../lib/mdx'
-import { Sprout, Hammer, Sparkles, Milestone, ArrowRight } from 'lucide-react'
+import { ArrowRight, Sprout, Hammer, Sparkles, Milestone } from 'lucide-react'
+
+export const revalidate = 0
 
 export default function HomePage() {
-  // Lấy dữ liệu động của The Now từ folder content/now/now.mdx
+  // Lấy dữ liệu động The Now từ content/now/now.mdx
   const nowPost = getPostBySlug('now', 'now')
-  const nowText = nowPost?.summary || 'Đang cùng với con AI tên là Sil học cách kiến trúc web bằng tay, setup bộ khung Next.js + Tailwind CSS.'
-  const nowUpdateDate = nowPost?.date || '2026-07-05'
+  const nowText =
+    nowPost?.summary ||
+    'Đang cùng với con AI tên là Sil học cách kiến trúc web bằng tay, setup bộ khung Next.js + Tailwind CSS.'
+  const nowDate = nowPost?.date || '2026-07-05'
 
   const dimensions = [
     {
       name: 'The Now',
-      desc: 'Tuần này t đang học gì, làm gì? Những cập nhật nhanh về thói quen và mục tiêu ngắn hạn.',
+      desc: 'Tuần này t đang học gì, làm gì? Cập nhật nhanh về thói quen và mục tiêu ngắn hạn.',
       href: '/brain?category=now',
-      color: 'from-emerald-500 to-teal-500',
-      icon: Sparkles,
+      Icon: Sparkles,
+      accent: '#10B981', // emerald
     },
     {
       name: 'The Craft',
-      desc: 'Nơi trưng bày sản phẩm thực tế: đồ án môn học, code thử nghiệm và các tool tự viết.',
+      desc: 'Sản phẩm thực tế: đồ án môn học, code thử nghiệm và các tool tự viết.',
       href: '/brain?category=craft',
-      color: 'from-blue-500 to-indigo-500',
-      icon: Hammer,
+      Icon: Hammer,
+      accent: '#3B82F6', // blue
     },
     {
       name: 'The Garden',
-      desc: 'Vườn tri thức số: các ghi chép công nghệ, giải thuật, cấu trúc dữ liệu và tóm tắt sách.',
+      desc: 'Vườn tri thức số: ghi chép công nghệ, giải thuật, cấu trúc dữ liệu và tóm tắt sách.',
       href: '/brain?category=garden',
-      color: 'from-amber-500 to-orange-500',
-      icon: Sprout,
+      Icon: Sprout,
+      accent: '#F59E0B', // amber
     },
     {
       name: 'The Journey',
-      desc: 'Lịch sử tiến hóa cá nhân: dòng thời gian năm 1, mục tiêu năm 2 và kế hoạch 10 năm.',
+      desc: 'Lịch sử tiến hóa cá nhân: timeline năm 1, mục tiêu năm 2 và kế hoạch 10 năm.',
       href: '/timeline',
-      color: 'from-pink-500 to-rose-500',
-      icon: Milestone,
+      Icon: Milestone,
+      accent: '#EC4899', // pink
     },
   ]
 
   return (
-    <div className="space-y-16 py-4 animate-fade-in">
-      {/* Hero Section */}
-      <section className="space-y-6 max-w-2xl">
-        <h1 className="text-4xl font-extrabold sm:text-5xl tracking-tight leading-none">
-          Hi, t là <span className="text-gradient font-black">Chủ tịch</span>.
-        </h1>
-        <p className="text-gray-600 dark:text-gray-400 leading-relaxed text-base sm:text-lg">
-          T đang là sinh viên ngành Công nghệ thông tin năm thứ nhất. Đây không phải là một CV tĩnh, đây là hệ thống
-          <strong className="text-gray-950 dark:text-white font-semibold"> Second Brain </strong> và
-          <strong className="text-gray-950 dark:text-white font-semibold"> Hành trình 10 năm </strong> 
-          để t tự ghi chép lại quá trình phát triển năng lực tư duy, viết code và tích lũy kiến thức mỗi ngày.
-        </p>
-      </section>
+    <div className="animate-fade-in" style={{ paddingTop: '40px', paddingBottom: '64px' }}>
 
-      {/* Dynamic Widget NOW */}
-      <section className="p-6 rounded-2xl border border-emerald-100 dark:border-emerald-950/40 bg-emerald-50/30 dark:bg-emerald-950/10 backdrop-blur-sm relative overflow-hidden group">
-        <div className="absolute top-0 right-0 w-24 h-24 bg-emerald-500/10 dark:bg-emerald-400/5 rounded-full blur-2xl group-hover:scale-125 transition-transform duration-500" />
-        
-        <div className="flex items-center justify-between mb-3">
-          <div className="flex items-center gap-2.5">
-            <span className="relative flex h-3 w-3">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"></span>
-            </span>
-            <h2 className="text-xs font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-widest">
-              The Now (Hiện tại)
-            </h2>
-          </div>
-          <span className="text-xs text-gray-400 dark:text-gray-500 font-mono">Cập nhật: {nowUpdateDate}</span>
+      {/* ── Hero Section ──────────────────────────────────────── */}
+      <section style={{ marginBottom: '64px', maxWidth: '720px' }}>
+        {/* Badge "Open to Learn" */}
+        <div className="inline-flex items-center gap-2 mb-6">
+          <span
+            className="relative flex h-2.5 w-2.5"
+          >
+            <span
+              className="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75"
+              style={{ backgroundColor: '#B8D927' }}
+            />
+            <span
+              className="relative inline-flex rounded-full h-2.5 w-2.5"
+              style={{ backgroundColor: '#B8D927' }}
+            />
+          </span>
+          <span
+            className="text-xs font-semibold uppercase tracking-widest"
+            style={{ fontFamily: "'Inter', sans-serif", color: '#B8D927' }}
+          >
+            Đang học · Năm 1 CNTT
+          </span>
         </div>
-        <p className="text-sm sm:text-base text-gray-700 dark:text-gray-300 leading-relaxed">
-          {nowText}
+
+        {/* H1 — 54px / 600 / Google Sans */}
+        <h1
+          className="mb-6 leading-tight"
+          style={{
+            fontFamily: "'Google Sans', 'Inter', sans-serif",
+            fontSize: 'clamp(36px, 6vw, 54px)',
+            fontWeight: 600,
+            lineHeight: 1.05,
+            letterSpacing: '-0.02em',
+            color: 'var(--text-primary)',
+          }}
+        >
+          Hi, tôi là{' '}
+          <span
+            className="relative inline-block"
+          >
+            <span className="relative z-10">Chủ tịch</span>
+            {/* Neon lime highlight underline */}
+            <span
+              className="absolute bottom-1 left-0 right-0 h-2 -z-0 opacity-40 rounded"
+              style={{ backgroundColor: '#B8D927' }}
+            />
+          </span>
+          .
+        </h1>
+
+        {/* Body — Google Sans 14px / muted */}
+        <p
+          className="leading-relaxed"
+          style={{
+            fontFamily: "'Google Sans', 'Inter', sans-serif",
+            fontSize: '16px',
+            fontWeight: 400,
+            lineHeight: '1.75',
+            color: 'var(--text-secondary)',
+            maxWidth: '600px',
+          }}
+        >
+          Tôi là sinh viên ngành Công nghệ thông tin năm thứ nhất. Đây không
+          phải là một CV tĩnh — đây là hệ thống{' '}
+          <strong style={{ color: 'var(--text-primary)', fontWeight: 600 }}>
+            Second Brain
+          </strong>{' '}
+          và{' '}
+          <strong style={{ color: 'var(--text-primary)', fontWeight: 600 }}>
+            Hành trình 10 năm
+          </strong>{' '}
+          ghi chép lại quá trình phát triển tư duy, viết code và tích lũy kiến
+          thức mỗi ngày.
         </p>
-        <div className="mt-4 flex justify-end">
-          <Link href="/brain?category=now" className="text-xs font-semibold text-emerald-600 dark:text-emerald-400 flex items-center gap-1 hover:gap-2 transition-all">
-            Xem nhật ký tuần này <ArrowRight size={12} />
+
+        {/* CTA Buttons */}
+        <div className="flex flex-wrap items-center gap-3 mt-8">
+          <Link
+            href="/brain"
+            className="btn-primary flex items-center gap-2 no-underline"
+            style={{ textDecoration: 'none' }}
+          >
+            Khám phá The Brain
+            <ArrowRight size={16} />
+          </Link>
+          <Link
+            href="/timeline"
+            className="btn-secondary flex items-center gap-2 no-underline"
+            style={{ textDecoration: 'none', color: 'var(--text-primary)' }}
+          >
+            Xem Timeline
           </Link>
         </div>
       </section>
 
-      {/* 4 Dimensions Grid */}
-      <section className="space-y-6">
-        <div className="space-y-2">
-          <h2 className="text-xl font-bold tracking-tight text-gray-900 dark:text-white">
+      {/* ── The Now Widget — Elevated Card ────────────────────── */}
+      <section style={{ marginBottom: '64px' }}>
+        <div
+          className="relative overflow-hidden rounded-[12px] p-6 transition-shadow duration-200 hover:shadow-[0px_4px_12px_rgba(9,9,11,0.06)]"
+          style={{
+            background: 'var(--bg-primary)',
+            border: '1px solid var(--border-default)',
+            boxShadow: '0px 4px 12px rgba(9, 9, 11, 0.04)',
+          }}
+        >
+          {/* Subtle lime glow trang trí */}
+          <div
+            className="absolute top-0 right-0 w-48 h-48 rounded-full opacity-[0.06] blur-3xl pointer-events-none"
+            style={{ backgroundColor: '#B8D927', transform: 'translate(30%, -30%)' }}
+          />
+
+          {/* Header row */}
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center gap-2.5">
+              <span className="relative flex h-2.5 w-2.5">
+                <span
+                  className="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75"
+                  style={{ backgroundColor: '#B8D927' }}
+                />
+                <span
+                  className="relative inline-flex rounded-full h-2.5 w-2.5"
+                  style={{ backgroundColor: '#B8D927' }}
+                />
+              </span>
+              <span
+                className="text-xs font-bold uppercase tracking-widest"
+                style={{ fontFamily: "'Inter', sans-serif", color: '#B8D927' }}
+              >
+                The Now — Tuần này
+              </span>
+            </div>
+            <span
+              className="text-xs font-mono"
+              style={{ color: 'var(--text-placeholder)' }}
+            >
+              Cập nhật: {nowDate}
+            </span>
+          </div>
+
+          {/* Content */}
+          <p
+            className="leading-relaxed"
+            style={{
+              fontFamily: "'Google Sans', 'Inter', sans-serif",
+              fontSize: '15px',
+              lineHeight: '1.7',
+              color: 'var(--text-secondary)',
+            }}
+          >
+            {nowText}
+          </p>
+
+          {/* Link */}
+          <div className="flex justify-end mt-4">
+            <Link
+              href="/brain?category=now"
+              className="inline-flex items-center gap-1 text-xs font-semibold group text-[var(--accent-electric)] hover:text-[var(--accent-electric-hover)] hover:underline no-underline font-inter"
+            >
+              Xem nhật ký tuần này
+              <ArrowRight size={12} className="group-hover:translate-x-0.5 transition-transform" />
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* ── 4 Dimension Cards ─────────────────────────────────── */}
+      <section>
+        <div style={{ marginBottom: '24px' }}>
+          <h2
+            style={{
+              fontFamily: "'Google Sans', 'Inter', sans-serif",
+              fontSize: '20px',
+              fontWeight: 500,
+              lineHeight: '28px',
+              color: 'var(--text-primary)',
+              marginBottom: '6px',
+            }}
+          >
             Khám phá 4 Chiều Không Gian
           </h2>
-          <p className="text-sm text-gray-500 dark:text-gray-400">
-            Dữ liệu được tổ chức có hệ thống để liên kết giữa lý thuyết, thực hành và hành trình phát triển bản thân.
+          <p
+            style={{
+              fontFamily: "'Google Sans', 'Inter', sans-serif",
+              fontSize: '14px',
+              color: 'var(--text-secondary)',
+              lineHeight: '1.6',
+            }}
+          >
+            Dữ liệu được tổ chức có hệ thống để liên kết lý thuyết, thực hành và hành trình phát triển bản thân.
           </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {dimensions.map((dim) => {
-            const Icon = dim.icon
-            return (
-              <Link
-                key={dim.name}
-                href={dim.href}
-                className="group p-6 rounded-2xl border border-gray-200/60 dark:border-gray-800/60 bg-white dark:bg-gray-900/40 hover:bg-gray-50/50 dark:hover:bg-gray-900/80 hover:border-gray-300 dark:hover:border-gray-700 transition-all duration-300 flex flex-col justify-between shadow-sm relative overflow-hidden"
+          {dimensions.map(({ name, desc, href, Icon, accent }) => (
+            <Link
+              key={name}
+              href={href}
+              className="group relative overflow-hidden flex flex-col gap-4 p-6 rounded-[12px] border transition-all duration-200 no-underline bg-[var(--bg-secondary)] border-[var(--border-default)] hover:shadow-[var(--shadow-hover)] hover:border-[var(--border-medium)]"
+            >
+              {/* Subtle accent glow */}
+              <div
+                className="absolute top-0 right-0 w-24 h-24 rounded-full opacity-[0.08] blur-2xl pointer-events-none transition-opacity duration-300 group-hover:opacity-[0.15]"
+                style={{ backgroundColor: accent, transform: 'translate(30%, -30%)' }}
+              />
+
+              {/* Icon */}
+              <div
+                className="w-10 h-10 rounded-[8px] flex items-center justify-center flex-shrink-0"
+                style={{ backgroundColor: `${accent}18`, color: accent }}
               >
-                {/* Background glow decoration */}
-                <div className={`absolute -right-4 -bottom-4 w-12 h-12 bg-gradient-to-tr ${dim.color} opacity-5 dark:opacity-10 group-hover:opacity-10 dark:group-hover:opacity-20 rounded-full blur-xl group-hover:scale-150 transition-all duration-500`} />
-                
-                <div className="space-y-4">
-                  <div className={`w-10 h-10 rounded-xl bg-gradient-to-tr ${dim.color} flex items-center justify-center text-white shadow-md shadow-gray-500/10`}>
-                    <Icon size={20} />
-                  </div>
-                  <div className="space-y-2">
-                    <h3 className="text-base font-bold text-gray-900 dark:text-white flex items-center gap-1.5">
-                      {dim.name}
-                      <ArrowRight size={14} className="text-gray-400 dark:text-gray-600 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300" />
-                    </h3>
-                    <p className="text-sm text-gray-500 dark:text-gray-400 leading-relaxed">
-                      {dim.desc}
-                    </p>
-                  </div>
-                </div>
-              </Link>
-            )
-          })}
+                <Icon size={20} />
+              </div>
+
+              <div className="flex-1">
+                {/* Card title H3 spec */}
+                <h3
+                  className="flex items-center gap-1.5 mb-2"
+                  style={{
+                    fontFamily: "'Google Sans', 'Inter', sans-serif",
+                    fontSize: '16px',
+                    fontWeight: 500,
+                    lineHeight: '24px',
+                    color: 'var(--text-primary)',
+                  }}
+                >
+                  {name}
+                  <ArrowRight
+                    size={14}
+                    className="opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200"
+                    style={{ color: 'var(--text-placeholder)' }}
+                  />
+                </h3>
+                <p
+                  style={{
+                    fontFamily: "'Google Sans', 'Inter', sans-serif",
+                    fontSize: '14px',
+                    lineHeight: '1.6',
+                    color: 'var(--text-secondary)',
+                  }}
+                >
+                  {desc}
+                </p>
+              </div>
+            </Link>
+          ))}
         </div>
       </section>
     </div>

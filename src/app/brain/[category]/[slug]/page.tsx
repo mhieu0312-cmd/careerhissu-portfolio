@@ -2,85 +2,126 @@ import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import { getPostBySlug } from '../../../../lib/mdx'
 import { MDXRemote } from 'next-mdx-remote/rsc'
-import { Calendar, Clock, ArrowLeft, Folder } from 'lucide-react'
+import { Calendar, Clock, ArrowLeft } from 'lucide-react'
 
-// Thiết lập render động để luôn cập nhật nội dung bài viết mới nhất
 export const revalidate = 0
 
 interface PostPageProps {
   params: {
-    category: string;
-    slug: string;
+    category: string
+    slug: string
   }
 }
 
-const CATEGORY_LABELS: Record<string, string> = {
-  now: 'The Now',
-  craft: 'The Craft',
-  garden: 'The Garden',
-  journey: 'The Journey',
+const CATEGORY_META: Record<string, { label: string; color: string }> = {
+  now:     { label: 'The Now',     color: '#10B981' },
+  craft:   { label: 'The Craft',   color: '#3B82F6' },
+  garden:  { label: 'The Garden',  color: '#F59E0B' },
+  journey: { label: 'The Journey', color: '#EC4899' },
 }
 
 export default function PostPage({ params }: PostPageProps) {
   const { category, slug } = params
-  
   const post = getPostBySlug(category, slug)
 
-  if (!post) {
-    notFound()
-  }
+  if (!post) notFound()
 
-  // Tính thời gian đọc ước tính (khoảng 200 từ / phút)
   const wordCount = post.content.split(/\s+/).length
   const readingTime = Math.ceil(wordCount / 200)
+  const catMeta = CATEGORY_META[category] || { label: category, color: '#A1A1AA' }
 
   return (
-    <div className="space-y-8 py-4 animate-fade-in">
-      {/* Back Button */}
-      <div>
+    <div className="animate-fade-in" style={{ paddingTop: '32px', paddingBottom: '80px' }}>
+
+      {/* ── Back link — Minimal Link Button spec ─────────── */}
+      <div style={{ marginBottom: '32px' }}>
         <Link
           href={`/brain?category=${category}`}
-          className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-medium text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100 transition-colors group"
+          className="inline-flex items-center gap-1.5 group transition-all duration-150 no-underline text-[var(--accent-electric)] hover:text-[var(--accent-electric-hover)] hover:underline font-sans text-xs font-normal"
         >
-          <ArrowLeft size={16} className="group-hover:-translate-x-1 transition-transform" />
-          Quay lại {CATEGORY_LABELS[category] || category}
+          <ArrowLeft size={13} className="group-hover:-translate-x-0.5 transition-transform duration-150" />
+          Quay lại {catMeta.label}
         </Link>
       </div>
 
-      {/* Header Info */}
-      <div className="space-y-4 border-b border-gray-200/50 dark:border-gray-800/50 pb-6">
-        <div className="flex flex-wrap items-center gap-3 text-xs sm:text-sm text-gray-500 dark:text-gray-400 font-mono">
-          <div className="flex items-center gap-1">
-            <Folder size={14} />
-            <span className="uppercase font-semibold tracking-wider text-indigo-600 dark:text-indigo-400">
-              {CATEGORY_LABELS[category] || category}
-            </span>
-          </div>
-          <span className="text-gray-300 dark:text-gray-700">|</span>
-          <div className="flex items-center gap-1">
-            <Calendar size={14} />
+      {/* ── Article Header ────────────────────────────────── */}
+      <header style={{ marginBottom: '40px', paddingBottom: '32px', borderBottom: '1px solid var(--border-default)' }}>
+
+        {/* Breadcrumb metadata — Breadcrumb Navigation spec */}
+        <div
+          className="flex flex-wrap items-center gap-2 mb-6"
+          style={{
+            fontFamily: 'sans-serif',
+            fontSize: '12px',
+            fontWeight: 400,
+            color: 'var(--text-muted)',
+          }}
+        >
+          {/* Category badge */}
+          <span
+            className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-[6px] font-bold uppercase tracking-wider"
+            style={{
+              fontSize: '11px',
+              backgroundColor: `${catMeta.color}18`,
+              color: catMeta.color,
+            }}
+          >
+            <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: catMeta.color }} />
+            {catMeta.label}
+          </span>
+
+          <span style={{ color: 'var(--border-medium)' }}>/</span>
+
+          <div className="flex items-center gap-1.5">
+            <Calendar size={12} />
             <span>{post.date}</span>
           </div>
-          <span className="text-gray-300 dark:text-gray-700">|</span>
-          <div className="flex items-center gap-1">
-            <Clock size={14} />
+
+          <span style={{ color: 'var(--border-medium)' }}>/</span>
+
+          <div className="flex items-center gap-1.5">
+            <Clock size={12} />
             <span>~{readingTime} phút đọc</span>
           </div>
         </div>
 
-        <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-gray-900 dark:text-white leading-tight">
+        {/* H1 — Display spec: 54px / 600 / Google Sans */}
+        <h1
+          style={{
+            fontFamily: "'Google Sans', 'Inter', sans-serif",
+            fontSize: 'clamp(28px, 5vw, 48px)',
+            fontWeight: 600,
+            lineHeight: '1.1',
+            letterSpacing: '-0.02em',
+            color: 'var(--text-primary)',
+            marginBottom: '16px',
+          }}
+        >
           {post.title}
         </h1>
 
+        {/* Summary / Lead */}
         {post.summary && (
-          <p className="text-base sm:text-lg text-gray-500 dark:text-gray-400 leading-relaxed font-light italic">
-            "{post.summary}"
+          <p
+            style={{
+              fontFamily: "'Google Sans', 'Inter', sans-serif",
+              fontSize: '17px',
+              fontWeight: 400,
+              lineHeight: '1.7',
+              color: 'var(--text-secondary)',
+              borderLeft: '3px solid #B8D927',
+              paddingLeft: '16px',
+              fontStyle: 'normal',
+              margin: 0,
+            }}
+          >
+            {post.summary}
           </p>
         )}
-      </div>
+      </header>
 
-      {/* Markdown Content rendered as HTML */}
-      <article className="prose dark:prose-invert max-w-none pb-12">
+      {/* ── MDX Body ─────────────────────────────────────── */}
+      <article className="prose max-w-none">
         <MDXRemote source={post.content} />
       </article>
     </div>

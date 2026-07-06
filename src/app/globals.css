@@ -1,88 +1,395 @@
+/* ════════════════════════════════════════════════════════════
+   Hissu.dev — Global Stylesheet
+   Design System: Light Mode chủ đạo, Dark Mode tự động theo hệ thống
+   ════════════════════════════════════════════════════════════ */
+
+/* Import Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/* ─── CSS Custom Properties (Design Tokens) ─────────────────────── */
 @layer base {
+  :root {
+    /* Grounds */
+    --bg-primary:      #FFFFFF;
+    --bg-secondary:    #FAFAFA;
+    --bg-tertiary:     #F3F4F6;
+
+    /* Borders */
+    --border-default:  #E4E4E7;
+    --border-medium:   #D1D5DB;
+    --border-strong:   #CBD5E1;
+
+    /* Typography */
+    --text-primary:    #09090B;
+    --text-secondary:  #374151;
+    --text-muted:      #71717A;
+    --text-placeholder:#A1A1AA;
+
+    /* Accents */
+    --accent-lime:         #B8D927;
+    --accent-lime-hover:   #A8C91E;
+    --accent-lime-active:  #98B91A;
+    --accent-lime-text:    #272D1F;
+    --accent-electric:     #0000EE;
+    --accent-electric-hover:#1D4ED8;
+    --accent-blue:         #3B82F6;
+
+    /* Semantic */
+    --color-success:  #16A34A;
+    --color-warning:  #EAB308;
+    --color-error:    #EF4444;
+
+    /* Surfaces */
+    --surface-card:   #FFFFFF;
+    --surface-raised: #FFFFFF;
+    --surface-contrast:#18181B;
+
+    /* Elevation Shadows */
+    --shadow-hover:   0px 4px 12px rgba(9, 9, 11, 0.06);
+  }
+
+  /* Dark Mode — tự động map sang tông tối tương thích */
+  .dark {
+    --bg-primary:      #0A0A0B;
+    --bg-secondary:    #18181B;
+    --bg-tertiary:     #27272A;
+
+    --border-default:  #3F3F46;
+    --border-medium:   #52525B;
+    --border-strong:   #71717A;
+
+    --text-primary:    #FAFAFA;
+    --text-secondary:  #D4D4D8;
+    --text-muted:      #A1A1AA;
+    --text-placeholder:#71717A;
+
+    /* Accent lime giữ nguyên — vẫn nổi bật trên nền tối */
+    --accent-lime:         #B8D927;
+    --accent-lime-hover:   #C9EA38;
+    --accent-lime-active:  #A8C91E;
+    --accent-lime-text:    #272D1F;
+    /* Electric blue → sáng hơn để đọc được trên nền tối */
+    --accent-electric:     #60A5FA;
+    --accent-electric-hover:#93C5FD;
+    --accent-blue:         #3B82F6;
+
+    --surface-card:   #18181B;
+    --surface-raised: #27272A;
+    --surface-contrast:#FAFAFA;
+
+    /* Elevation Shadows */
+    --shadow-hover:   0px 4px 12px rgba(0, 0, 0, 0.25);
+  }
+
+  /* ─── Base Resets & Typography ───────────────────────────────── */
   html {
     scroll-behavior: smooth;
+    font-size: 16px;
   }
 
   body {
-    @apply transition-colors duration-300 antialiased;
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    font-family: 'Inter', 'Google Sans', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    transition: background-color 0.2s ease, color 0.2s ease;
   }
 
-  /* Tùy chỉnh thanh cuộn siêu mỏng & mượt mà */
+  /* Heading hierarchy theo Design System */
+  h1 {
+    font-family: 'Google Sans', 'Inter', sans-serif;
+    font-size: 54px;
+    font-weight: 600;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    color: var(--text-primary);
+  }
+
+  h2 {
+    font-family: 'Google Sans', 'Inter', sans-serif;
+    font-size: 48px;
+    font-weight: 500;
+    line-height: 58px;
+    color: var(--text-primary);
+  }
+
+  h3 {
+    font-family: 'Google Sans', 'Inter', sans-serif;
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 28px;
+    color: var(--text-primary);
+  }
+
+  p {
+    font-family: 'Google Sans', 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.6;
+    color: var(--text-secondary);
+  }
+
+  a {
+    color: var(--accent-electric);
+    text-decoration: none;
+    transition: color 0.15s ease;
+  }
+
+  a:hover {
+    color: var(--accent-electric-hover);
+  }
+
+  /* ─── Scrollbar — mỏng và thanh lịch ────────────────────────── */
   ::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
+    width: 5px;
+    height: 5px;
   }
-
   ::-webkit-scrollbar-track {
-    @apply bg-transparent;
+    background: transparent;
   }
-
   ::-webkit-scrollbar-thumb {
-    @apply bg-gray-200 dark:bg-gray-800 rounded-full hover:bg-gray-300 dark:hover:bg-gray-700 transition-colors;
+    background: var(--border-default);
+    border-radius: 100px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--border-medium);
+  }
+
+  /* ─── Focus visible — accessibility ─────────────────────────── */
+  *:focus-visible {
+    outline: 2px solid var(--accent-blue);
+    outline-offset: 2px;
+    border-radius: 4px;
   }
 }
 
+/* ─── Component Utilities ────────────────────────────────────────── */
 @layer utilities {
-  .text-gradient {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500;
+  /* Primary CTA Button (Neon Lime) */
+  .btn-primary {
+    background-color: #B8D927;
+    color: #272D1F;
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    height: 40px;
+    padding: 0 16px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.15s ease;
   }
-  
-  .glass-card {
-    @apply bg-white/40 dark:bg-gray-900/40 backdrop-blur-md border border-gray-200/50 dark:border-gray-800/50 shadow-sm hover:shadow-md hover:border-gray-300 dark:hover:border-gray-700 transition-all duration-300;
+  .btn-primary:hover  { background-color: #A8C91E; }
+  .btn-primary:active { background-color: #98B91A; }
+  .btn-primary:disabled {
+    background-color: #E4E4E7;
+    color: #A1A1AA;
+    opacity: 0.5;
+    cursor: not-allowed;
   }
 
-  .glow-indicator {
-    @apply shadow-[0_0_15px_rgba(99,102,241,0.5)] dark:shadow-[0_0_15px_rgba(129,140,248,0.6)];
+  /* Secondary Button */
+  .btn-secondary {
+    background: transparent;
+    color: #09090B;
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    height: 32px;
+    padding: 0 12px;
+    border-radius: 12px;
+    border: 1px solid #D1D5DB;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.15s ease;
+  }
+  .btn-secondary:hover  { background: #FAFAFA; }
+  .btn-secondary:active { background: #E4E4E7; }
+  .dark .btn-secondary {
+    color: #FAFAFA;
+    border-color: #3F3F46;
+  }
+  .dark .btn-secondary:hover  { background: #27272A; }
+  .dark .btn-secondary:active { background: #3F3F46; }
+
+  /* Default Card */
+  .card-default {
+    background: #FAFAFA;
+    border: 1px solid #E4E4E7;
+    border-radius: 12px;
+    padding: 24px;
+  }
+  .dark .card-default {
+    background: #18181B;
+    border-color: #3F3F46;
+  }
+
+  /* Elevated Card */
+  .card-elevated {
+    background: #FFFFFF;
+    border: 1px solid #F3F4F6;
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: 0px 4px 12px rgba(9, 9, 11, 0.04);
+  }
+  .dark .card-elevated {
+    background: #27272A;
+    border-color: #3F3F46;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.25);
+  }
+
+  /* Gradient text (Neon Lime accent) */
+  .text-gradient-lime {
+    background: linear-gradient(135deg, #B8D927 0%, #8FAF0A 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Fade-in animation */
+  .animate-fade-in {
+    animation: fade-in 0.4s ease-out forwards;
+  }
+
+  /* Pill tag */
+  .tag-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    padding: 2px 8px;
+    border-radius: 23px;
+    border: 1px solid var(--border-default);
+    color: var(--text-muted);
+    background: var(--bg-secondary);
+    cursor: pointer;
+    transition: background-color 0.15s ease, border-color 0.15s ease;
+  }
+  .tag-pill:hover {
+    border-color: var(--border-medium);
+    background: var(--bg-tertiary);
   }
 }
 
-/* Định dạng các component MDX hiển thị qua tailwind typography (prose) */
+/* ─── Animation Keyframes ────────────────────────────────────────── */
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ─── Prose / MDX Typography Overrides ──────────────────────────── */
+/* Light Mode */
 .prose {
-  --tw-prose-body: theme('colors.gray.700');
-  --tw-prose-headings: theme('colors.gray.900');
-  --tw-prose-links: theme('colors.indigo.600');
-  --tw-prose-bold: theme('colors.gray.900');
-  --tw-prose-counters: theme('colors.gray.500');
-  --tw-prose-bullets: theme('colors.gray.300');
-  --tw-prose-hr: theme('colors.gray.200');
-  --tw-prose-quotes: theme('colors.gray.900');
-  --tw-prose-quote-borders: theme('colors.indigo.500');
-  --tw-prose-captions: theme('colors.gray.500');
-  --tw-prose-code: theme('colors.pink.600');
-  --tw-prose-pre-code: theme('colors.gray.200');
-  --tw-prose-pre-bg: theme('colors.gray.900');
-  --tw-prose-th-borders: theme('colors.gray.300');
-  --tw-prose-td-borders: theme('colors.gray.200');
+  --tw-prose-body:          #374151;
+  --tw-prose-headings:      #09090B;
+  --tw-prose-links:         #0000EE;
+  --tw-prose-bold:          #09090B;
+  --tw-prose-counters:      #71717A;
+  --tw-prose-bullets:       #D1D5DB;
+  --tw-prose-hr:            #E4E4E7;
+  --tw-prose-quotes:        #09090B;
+  --tw-prose-quote-borders: #B8D927;
+  --tw-prose-captions:      #71717A;
+  --tw-prose-code:          #B8D927;
+  --tw-prose-pre-code:      #E4E4E7;
+  --tw-prose-pre-bg:        #18181B;
+  --tw-prose-th-borders:    #D1D5DB;
+  --tw-prose-td-borders:    #E4E4E7;
+
+  /* Override font cho prose content */
+  font-family: 'Google Sans', 'Inter', sans-serif;
+  font-size: 15px;
+  line-height: 1.75;
 }
 
-.dark .prose {
-  --tw-prose-body: theme('colors.gray.300');
-  --tw-prose-headings: theme('colors.white');
-  --tw-prose-links: theme('colors.indigo.400');
-  --tw-prose-bold: theme('colors.white');
-  --tw-prose-counters: theme('colors.gray.400');
-  --tw-prose-bullets: theme('colors.gray.600');
-  --tw-prose-hr: theme('colors.gray.800');
-  --tw-prose-quotes: theme('colors.gray.100');
-  --tw-prose-quote-borders: theme('colors.indigo.500');
-  --tw-prose-captions: theme('colors.gray.400');
-  --tw-prose-code: theme('colors.pink.400');
-  --tw-prose-pre-code: theme('colors.gray.100');
-  --tw-prose-pre-bg: theme('colors.gray.900');
-  --tw-prose-th-borders: theme('colors.gray.700');
-  --tw-prose-td-borders: theme('colors.gray.800');
+.prose h1, .prose h2, .prose h3, .prose h4 {
+  font-family: 'Google Sans', 'Inter', sans-serif;
+  font-weight: 600;
+  letter-spacing: -0.01em;
 }
 
-/* Custom styling for inline-code block in prose */
-.prose code::before,
-.prose code::after {
-  content: "" !important;
+.prose a {
+  color: var(--accent-electric);
+  font-weight: 500;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: color 0.15s ease;
+}
+.prose a:hover {
+  color: var(--accent-electric-hover);
 }
 
+/* Blockquote accent với neon lime border */
+.prose blockquote {
+  border-left-color: #B8D927;
+  background: #FAFAFA;
+  border-radius: 0 8px 8px 0;
+  padding: 12px 16px;
+  font-style: normal;
+}
+.dark .prose blockquote {
+  background: #18181B;
+}
+
+/* Inline code */
 .prose code {
-  @apply bg-gray-100 dark:bg-gray-900 px-1.5 py-0.5 rounded text-xs font-mono font-medium;
+  font-family: 'Fira Code', 'Courier New', monospace;
+  font-size: 13px;
+  font-weight: 400;
+  background: #F3F4F6;
+  color: #09090B;
+  padding: 2px 6px;
+  border-radius: 4px;
+  border: 1px solid #E4E4E7;
+}
+.prose code::before, .prose code::after { content: "" !important; }
+
+/* Code block */
+.prose pre {
+  background: #18181B !important;
+  border: 1px solid #3F3F46;
+  border-radius: 12px;
+  padding: 20px 24px;
+}
+.prose pre code {
+  background: transparent;
+  border: none;
+  padding: 0;
+  color: #E4E4E7;
+}
+
+/* Dark Mode — đảo ngược prose vars */
+.dark .prose {
+  --tw-prose-body:          #D4D4D8;
+  --tw-prose-headings:      #FAFAFA;
+  --tw-prose-links:         #60A5FA;
+  --tw-prose-bold:          #FAFAFA;
+  --tw-prose-counters:      #A1A1AA;
+  --tw-prose-bullets:       #52525B;
+  --tw-prose-hr:            #3F3F46;
+  --tw-prose-quotes:        #FAFAFA;
+  --tw-prose-quote-borders: #B8D927;
+  --tw-prose-captions:      #71717A;
+  --tw-prose-code:          #B8D927;
+  --tw-prose-pre-code:      #E4E4E7;
+  --tw-prose-pre-bg:        #0A0A0B;
+  --tw-prose-th-borders:    #3F3F46;
+  --tw-prose-td-borders:    #27272A;
+}
+.dark .prose code {
+  background: #27272A;
+  color: #FAFAFA;
+  border-color: #3F3F46;
 }

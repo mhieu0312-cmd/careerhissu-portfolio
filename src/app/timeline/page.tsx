@@ -1,83 +1,171 @@
 import Link from 'next/link'
 import { getAllPosts } from '../../lib/mdx'
-import { Calendar, ArrowRight, Milestone, Sparkles } from 'lucide-react'
+import { ArrowRight, Milestone, Sparkles } from 'lucide-react'
 
 export const revalidate = 0
 
 export default function TimelinePage() {
-  // Lấy toàn bộ bài viết từ danh mục journey
   const journeyPosts = getAllPosts('journey')
 
   return (
-    <div className="space-y-10 py-4 animate-fade-in">
-      {/* Page Title */}
-      <div>
-        <h1 className="text-3xl font-extrabold tracking-tight text-gray-900 dark:text-white sm:text-4xl">
+    <div className="animate-fade-in" style={{ paddingTop: '40px', paddingBottom: '80px' }}>
+
+      {/* ── Page Header ──────────────────────────────────── */}
+      <div style={{ marginBottom: '48px' }}>
+        <h1
+          style={{
+            fontFamily: "'Google Sans', 'Inter', sans-serif",
+            fontSize: 'clamp(28px, 5vw, 48px)',
+            fontWeight: 500,
+            lineHeight: '1.15',
+            letterSpacing: '-0.02em',
+            color: 'var(--text-primary)',
+            marginBottom: '12px',
+          }}
+        >
           ⏳ THE TIMELINE
         </h1>
-        <p className="text-gray-500 dark:text-gray-400 mt-2 text-sm sm:text-base leading-relaxed max-w-xl">
-          Dòng thời gian ghi chép lại các cột mốc quan trọng, bài học kinh nghiệm xương máu và định hướng trong tương lai của t qua từng học kỳ và từng năm học.
+        <p
+          style={{
+            fontFamily: "'Google Sans', 'Inter', sans-serif",
+            fontSize: '15px',
+            lineHeight: '1.7',
+            color: 'var(--text-secondary)',
+            maxWidth: '520px',
+          }}
+        >
+          Dòng thời gian ghi chép lại các cột mốc quan trọng, bài học kinh
+          nghiệm xương máu và định hướng tương lai qua từng học kỳ và từng năm học.
         </p>
       </div>
 
       {journeyPosts.length > 0 ? (
-        <div className="relative border-l-2 border-gray-200 dark:border-gray-800 ml-4 pl-6 sm:pl-8 space-y-12 py-2">
+        /* Timeline track */
+        <div
+          className="relative"
+          style={{
+            marginLeft: '20px',
+            paddingLeft: '32px',
+            borderLeft: '2px solid var(--border-default)',
+          }}
+        >
           {journeyPosts.map((post, idx) => {
-            // Xác định icon và màu sắc đặc biệt cho các cột mốc quan trọng
             const isMilestone = post.milestone === true || idx === 0
-            
-            return (
-              <div key={post.slug} className="relative group">
-                {/* Timeline Dot Indicator */}
-                <div className={`absolute -left-[31px] sm:-left-[39px] top-1.5 w-4 h-4 rounded-full border-2 border-white dark:border-gray-950 transition-all duration-300 ${
-                  isMilestone 
-                    ? 'bg-gradient-to-tr from-pink-500 to-rose-500 scale-125 glow-indicator' 
-                    : 'bg-gray-400 dark:bg-gray-700 group-hover:bg-indigo-500 group-hover:scale-110'
-                }`} />
 
-                {/* Content Card */}
-                <div className="p-6 rounded-2xl border border-gray-200/60 dark:border-gray-800/60 bg-white dark:bg-gray-900/20 group-hover:bg-gray-50/50 dark:group-hover:bg-gray-900/50 transition-all duration-300 hover:border-gray-300 dark:hover:border-gray-700 hover:shadow-sm space-y-3">
+            return (
+              <div
+                key={post.slug}
+                className="relative group"
+                style={{ marginBottom: '32px' }}
+              >
+                {/* Timeline Dot */}
+                <div
+                  className="absolute transition-all duration-200"
+                  style={{
+                    left: '-41px',
+                    top: '24px',
+                    width: isMilestone ? '18px' : '14px',
+                    height: isMilestone ? '18px' : '14px',
+                    marginLeft: isMilestone ? '-2px' : '0px',
+                    borderRadius: '50%',
+                    backgroundColor: isMilestone ? '#B8D927' : 'var(--border-medium)',
+                    border: `2px solid var(--bg-primary)`,
+                    boxShadow: isMilestone ? '0 0 0 3px rgba(184, 217, 39, 0.25)' : 'none',
+                    zIndex: 1,
+                  }}
+                />
+
+                {/* Content Card — Default Card spec */}
+                <div
+                  className="flex flex-col gap-3 p-6 rounded-[12px] border transition-all duration-200 group-hover:shadow-[0px_4px_12px_rgba(9,9,11,0.04)] group-hover:border-[var(--border-medium)]"
+                  style={{
+                    background: 'var(--bg-secondary)',
+                    borderColor: 'var(--border-default)',
+                  }}
+                >
+                  {/* Period badge + Date */}
                   <div className="flex flex-wrap items-center justify-between gap-2">
-                    <span className={`text-[10px] font-bold uppercase tracking-widest px-2 py-0.5 rounded font-mono ${
-                      isMilestone 
-                        ? 'bg-pink-50 text-pink-600 dark:bg-pink-950/20 dark:text-pink-400' 
-                        : 'bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-400'
-                    }`}>
+                    <span
+                      className="inline-flex items-center gap-1.5"
+                      style={{
+                        fontFamily: "'Inter', sans-serif",
+                        fontSize: '11px',
+                        fontWeight: 700,
+                        letterSpacing: '0.08em',
+                        textTransform: 'uppercase',
+                        color: isMilestone ? '#272D1F' : 'var(--text-muted)',
+                        backgroundColor: isMilestone ? '#B8D927' : 'var(--bg-tertiary)',
+                        padding: '3px 10px',
+                        borderRadius: '23px',
+                        border: `1px solid ${isMilestone ? '#B8D927' : 'var(--border-default)'}`,
+                      }}
+                    >
+                      {isMilestone && <Sparkles size={10} />}
                       {post.period || 'Mốc Thời Gian'}
                     </span>
-                    
-                    <div className="flex items-center gap-1 text-xs text-gray-400 dark:text-gray-500 font-mono">
-                      <Calendar size={12} />
-                      <span>{post.date}</span>
-                    </div>
+
+                    <span
+                      style={{
+                        fontFamily: "'Inter', sans-serif",
+                        fontSize: '12px',
+                        color: 'var(--text-placeholder)',
+                      }}
+                    >
+                      {post.date}
+                    </span>
                   </div>
 
-                  <div className="space-y-1">
-                    <h2 className="text-lg font-bold text-gray-900 dark:text-white flex items-center gap-2 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
-                      {isMilestone && <Sparkles size={16} className="text-pink-500 animate-pulse" />}
+                  {/* Title — H3 spec: 20px / 500 */}
+                  <div>
+                    <h2
+                      style={{
+                        fontFamily: "'Google Sans', 'Inter', sans-serif",
+                        fontSize: '20px',
+                        fontWeight: 500,
+                        lineHeight: '28px',
+                        color: 'var(--text-primary)',
+                        marginBottom: '4px',
+                      }}
+                    >
                       {post.title}
                     </h2>
-                    
                     {post.subtitle && (
-                      <p className="text-xs text-gray-400 dark:text-gray-500 font-medium">
+                      <p
+                        style={{
+                          fontFamily: "'Inter', sans-serif",
+                          fontSize: '13px',
+                          color: 'var(--text-placeholder)',
+                          margin: 0,
+                        }}
+                      >
                         {post.subtitle}
                       </p>
                     )}
                   </div>
 
+                  {/* Summary */}
                   {post.summary && (
-                    <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+                    <p
+                      style={{
+                        fontFamily: "'Google Sans', 'Inter', sans-serif",
+                        fontSize: '14px',
+                        lineHeight: '1.65',
+                        color: 'var(--text-secondary)',
+                        margin: 0,
+                      }}
+                    >
                       {post.summary}
                     </p>
                   )}
 
-                  <div className="pt-2 flex justify-end">
+                  {/* Read link — Minimal Link Button spec */}
+                  <div className="flex justify-end">
                     <Link
                       href={`/brain/journey/${post.slug}`}
-                      className="text-xs font-semibold text-indigo-600 dark:text-indigo-400 flex items-center gap-1 group/btn hover:gap-2 transition-all"
+                      className="inline-flex items-center gap-1 group/link no-underline text-[var(--accent-electric)] hover:text-[var(--accent-electric-hover)] hover:underline font-sans text-xs font-normal"
                     >
                       Đọc chi tiết hành trình
-                      <ArrowRight size={12} className="group-hover/btn:translate-x-0.5 transition-transform" />
+                      <ArrowRight size={11} className="group-hover/link:translate-x-0.5 transition-transform" />
                     </Link>
                   </div>
                 </div>
@@ -86,10 +174,24 @@ export default function TimelinePage() {
           })}
         </div>
       ) : (
-        <div className="text-center py-16 px-4 border border-dashed border-gray-200 dark:border-gray-800 rounded-2xl">
-          <Milestone className="mx-auto h-12 w-12 text-gray-300 dark:text-gray-700" />
-          <h3 className="mt-4 text-sm font-semibold text-gray-950 dark:text-white">Chưa có cột mốc nào</h3>
-          <p className="mt-2 text-xs sm:text-sm text-gray-400 dark:text-gray-500">
+        /* Empty State */
+        <div
+          className="flex flex-col items-center justify-center py-20 rounded-[12px] border border-dashed"
+          style={{ borderColor: 'var(--border-default)', background: 'var(--bg-secondary)' }}
+        >
+          <Milestone size={40} style={{ color: 'var(--border-medium)', marginBottom: '16px' }} />
+          <p
+            style={{
+              fontFamily: "'Google Sans', 'Inter', sans-serif",
+              fontSize: '16px',
+              fontWeight: 500,
+              color: 'var(--text-primary)',
+              marginBottom: '6px',
+            }}
+          >
+            Chưa có cột mốc nào
+          </p>
+          <p style={{ fontFamily: "'Inter', sans-serif", fontSize: '14px', color: 'var(--text-muted)' }}>
             Hành trình đang được cập nhật. Hãy quay lại sau!
           </p>
         </div>

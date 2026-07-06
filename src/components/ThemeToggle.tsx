@@ -5,23 +5,30 @@ import { useEffect, useState } from 'react'
 import { Sun, Moon } from 'lucide-react'
 
 export default function ThemeToggle() {
-  const { theme, setTheme } = useTheme()
+  const { theme, setTheme, resolvedTheme } = useTheme()
   const [mounted, setMounted] = useState(false)
 
-  // Đợi component chạy trên client để tránh lỗi lệch cấu trúc (Hydration mismatch)
+  // Đợi mount client để tránh hydration mismatch
   useEffect(() => {
     setMounted(true)
   }, [])
 
-  if (!mounted) return <div className="w-9 h-9" />
+  if (!mounted) return <div className="fixed bottom-5 right-5 w-11 h-11" />
+
+  const isDark = resolvedTheme === 'dark'
 
   return (
     <button
-      onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-      className="p-2 rounded-lg border border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 transition-all fixed bottom-5 right-5 z-50 shadow-lg"
-      aria-label="Toggle Theme"
+      id="theme-toggle"
+      onClick={() => setTheme(isDark ? 'light' : 'dark')}
+      aria-label={isDark ? 'Chuyển sang Light Mode' : 'Chuyển sang Dark Mode'}
+      className="fixed bottom-5 right-5 z-50 flex items-center justify-center transition-all duration-150 w-11 h-11 rounded-[64px] border border-[var(--border-default)] bg-[var(--bg-primary)] hover:bg-[var(--bg-tertiary)] text-[var(--text-primary)] shadow-[var(--shadow-hover)] cursor-pointer"
     >
-      {theme === 'dark' ? <Sun size={18} className="text-yellow-400" /> : <Moon size={18} className="text-blue-600" />}
+      {isDark ? (
+        <Sun size={18} style={{ color: '#B8D927' }} />
+      ) : (
+        <Moon size={18} style={{ color: 'var(--text-secondary)' }} />
+      )}
     </button>
   )
 }
