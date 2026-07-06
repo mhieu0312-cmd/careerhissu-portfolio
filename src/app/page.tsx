@@ -63,7 +63,7 @@ export default function HomePage() {
             />
           </span>
           <span
-            className="text-xs font-semibold uppercase tracking-widest"
+            className="btn-secondary flex items-center gap-2 duration-10 font-inter text-xs font-semibold"
             style={{ fontFamily: "'Inter', sans-serif", color: '#B8D927' }}
           >
             Đang học · Năm 1 CNTT
@@ -82,11 +82,11 @@ export default function HomePage() {
             color: 'var(--text-primary)',
           }}
         >
-          Hi, tôi là{' '}
+          Xin chào, tôi là{' '}
           <span
             className="relative inline-block"
           >
-            <span className="relative z-10">Chủ tịch</span>
+            <span className="relative z-10">Hiếu</span>
             {/* Neon lime highlight underline */}
             <span
               className="absolute bottom-1 left-0 right-0 h-2 -z-0 opacity-40 rounded"
